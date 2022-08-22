@@ -2,32 +2,43 @@ import React, { useRef } from 'react';
 import './App.css';
 import jsQR from "jsqr"; 
 
+
 function App() {
  
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const canvas = canvasRef.current!.getContext("2d");
   
   const videoRef = useRef<HTMLVideoElement>(null);
-  const chunks:any = [];
-  let stream:any ;
+  const chunks: any[] = [];
+
+  const storeFrames = async (frame: BlobEvent) => {
+    chunks.push(frame.data)
+    await createUrl()
+  }
+
+  const createUrl = async () => {
+    let blob = new Blob(chunks, {
+      type: chunks[0].type
+    })
+
+    let url = URL.createObjectURL(blob)
+    videoRef.current!.src = await url
+  }
+
   const startScanning = async () => {
-    stream = await navigator.mediaDevices.getDisplayMedia({
+    let stream = await navigator.mediaDevices.getDisplayMedia({
       video: true
     })
     
     let mediaRecorder = new MediaRecorder(stream, {
       mimeType: "video/webm"
     })
-    mediaRecorder.addEventListener('dataavailable', async function(e) {
+    mediaRecorder.addEventListener('dataavailable',  async function(event: BlobEvent) {
       
-      chunks.push(e.data)
-      let blob = new Blob(chunks, {
-        type: chunks[0].type
-      })
-      let url = URL.createObjectURL(blob)
-      videoRef.current!.src = await url
+      await  storeFrames(event)
+
       videoRef.current!.oncanplay = () => {
-        const canvas = canvasRef.current!.getContext("2d");
-        setTimeout(async () => {
+        setTimeout( () => {
           
           canvas!.drawImage(videoRef.current  as unknown as HTMLCanvasElement , 0, 0, 300, 300)
           var imageData =  canvas!.getImageData(
@@ -35,15 +46,15 @@ function App() {
             0,
             300,
             300
-            );
+          );
             
             var code =  jsQR(imageData.data, imageData.width, imageData.height);
+            console.log(code);
             if (code && mediaRecorder.state === "recording") {
-            console.log(canvasRef);
             mediaRecorder.stop();
             stream.getTracks().forEach( (track:any) => track.stop() );
           }
-        }, 100);        
+        }, 500);        
       }
     })
     mediaRecorder.start(1000) 
