@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
   <head>
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
@@ -10,34 +10,65 @@
       content="Web site created using create-react-app"
     />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-    <title>React App</title>
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <title>Leitor de código QR</title>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
+<script src="https://cdn.jsdelivr.net/npm/jsqr@1.0.4/dist/jsQR.min.js"></script>
+<img src="%PUBLIC_URL%/test-code.png" alt="test" crossOrigin="anonymous">
+<!-- <video hidden autoplay="true" type="video/webm" width="300" height="200" id="vid">
+</video>
+<canvas hidden id="cvs" width="300" height="300"> </canvas>
+<button  class="record-btn">Start</button> -->
+<script>
+// let video = document.getElementById("vid")
+// var canvasElement = document.getElementById("cvs")
+// let canvas = canvasElement.getContext("2d")
+// let chunks = [];
 
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
+// let btn = document.querySelector(".record-btn")
+// let stream 
+// btn.addEventListener("click", async function () {
+//   stream = await navigator.mediaDevices.getDisplayMedia({
+//     video: true
+//   })
+
+//   let mediaRecorder = new MediaRecorder(stream, {
+//       mimeType: "video/webm"
+//   })
+
+//   mediaRecorder.addEventListener('dataavailable', async function(e) {
+//     chunks.push(e.data)
+//     let blob = new Blob(chunks, {
+//         type: chunks[0].type
+//     })
+//     let url = URL.createObjectURL(blob)
+//     video.src = await url
+    
+//     video.oncanplay = () =>{
+//         canvas.drawImage(video, 0, 0, canvasElement.width, canvasElement.height)
+//         var imageData =  canvas.getImageData(
+//         0,
+//         0,
+//         canvasElement.width,
+//         canvasElement.height
+//       );
+//       var code =  jsQR(imageData.data, imageData.width, imageData.height);
+//       if (code && mediaRecorder.state == "recording") {
+//         mediaRecorder.stop();
+//         stream.getTracks().forEach( track => track.stop() );
+//         console.log(code.data);
+//       }
+//     }
+//   })
+//   mediaRecorder.start(10) 
+// })
+  </script>
+
+ 
   </body>
 </html>
